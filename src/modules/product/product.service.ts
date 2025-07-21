@@ -6,10 +6,13 @@ import { Category } from './entity/Category.model';
 import { Brands } from './entity/Brands.model';
 import { Colors } from './entity/Color.model';
 import { Size } from './entity/Size.model';
+import { InjectModel } from '@nestjs/sequelize';
 
 @Injectable()
 export class ProductService {
-  public constructor(private productModel: typeof Product) {}
+  public constructor(
+    @InjectModel(Product) private readonly productModel: typeof Product,
+  ) {}
 
   getProducts(filter: ProductQueryParams): Promise<Product[]> {
     const { page, limit, filters } = filter;
