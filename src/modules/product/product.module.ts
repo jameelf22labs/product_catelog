@@ -11,6 +11,7 @@ import { Size } from './entity/Size.model';
 import { ProductColor } from './entity/ProductColor.model';
 import { ProductSize } from './entity/ProductSize.model';
 import Media from './entity/Media.model';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
@@ -25,6 +26,8 @@ import Media from './entity/Media.model';
       ProductSize,
       Media
     ]),
+
+    CacheModule.register(),
   ],
   controllers: [ProductController],
   providers: [ProductService],

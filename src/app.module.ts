@@ -7,6 +7,7 @@ import { ProductModule } from './modules/product/product.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { Sequelize } from 'sequelize-typescript';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { Sequelize } from 'sequelize-typescript';
         },
       ],
     }),
+    CacheModule.register(),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
