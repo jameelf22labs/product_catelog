@@ -1,4 +1,5 @@
 import {
+  BelongsToMany,
   Column,
   DataType,
   Default,
@@ -7,6 +8,8 @@ import {
   Table,
 } from 'sequelize-typescript';
 import { v4 as uuidv4 } from 'uuid';
+import { Product } from './Product.model';
+import { ProductSize } from './ProductSize.model';
 
 @Table({ tableName: 'sizedetails' })
 export class Size extends Model<Size> {
@@ -23,4 +26,7 @@ export class Size extends Model<Size> {
     unique: true,
   })
   value: string;
+
+  @BelongsToMany(() => Product, () => ProductSize)
+  product: Product[];
 }

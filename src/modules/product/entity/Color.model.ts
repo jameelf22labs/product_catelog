@@ -1,4 +1,5 @@
 import {
+  BelongsToMany,
   Column,
   DataType,
   Default,
@@ -7,6 +8,8 @@ import {
   Table,
 } from 'sequelize-typescript';
 import { v4 as uuidv4 } from 'uuid';
+import { Product } from './Product.model';
+import { ProductColor } from './ProductColor.model';
 
 @Table({ tableName: 'colordetails' })
 export class Colors extends Model<Colors> {
@@ -23,4 +26,7 @@ export class Colors extends Model<Colors> {
     unique: true,
   })
   name: string;
+
+  @BelongsToMany(() => Product , () => ProductColor)
+  products : Product[]
 }

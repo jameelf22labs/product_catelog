@@ -2,11 +2,13 @@ import {
   Column,
   DataType,
   Default,
+  HasMany,
   Model,
   PrimaryKey,
   Table,
 } from 'sequelize-typescript';
 import { v4 as uuidv4 } from 'uuid';
+import { Product } from './Product.model';
 
 @Table({ tableName: 'branddetails' })
 export class Brands extends Model<Brands> {
@@ -23,4 +25,7 @@ export class Brands extends Model<Brands> {
     unique: true,
   })
   name: string;
+
+  @HasMany(() => Product)  
+  products : Product[]
 }
