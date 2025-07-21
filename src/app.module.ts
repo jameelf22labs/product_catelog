@@ -21,6 +21,7 @@ import { ProductModule } from './modules/product/product.module';
         password : config.get<string>('POSTGRESS_PASSWORD'),
         database : config.get<string>('POSTGRESS_DB'),
         autoLoadModels: true, 
+        synchronize: true,
         logging : true
       }),
     }),
