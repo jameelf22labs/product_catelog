@@ -9,7 +9,12 @@ export class ProductController {
   public constructor(private readonly productService: ProductService) {}
 
   @Get()
-  @Throttle({ default: { limit: 4, ttl: 60 } })
+  @Throttle({
+    product: {   
+      limit: 4,
+      ttl: 60,
+    },
+  })
   async getProducts(
     @Query('f') filter: string,
     @Query('page') page?: number,

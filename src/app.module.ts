@@ -6,6 +6,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { ProductModule } from './modules/product/product.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { Sequelize } from 'sequelize-typescript';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { APP_GUARD } from '@nestjs/core';
         {
           ttl: 60,
           limit: 5,
+          name: 'product',
         },
       ],
     }),
@@ -31,7 +33,7 @@ import { APP_GUARD } from '@nestjs/core';
         password: config.get<string>('POSTGRESS_PASSWORD'),
         database: config.get<string>('POSTGRESS_DB'),
         autoLoadModels: true,
-        synchronize: true,
+        synchronize: false,
         logging: true,
       }),
     }),
@@ -46,4 +48,12 @@ import { APP_GUARD } from '@nestjs/core';
     },
   ],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private sequelize: Sequelize) {
+    this.syncModels();
+  }
+
+  async syncModels() {
+    await this.sequelize.sync({ alter: true }); 
+  }
+}

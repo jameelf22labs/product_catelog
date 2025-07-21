@@ -15,7 +15,7 @@ export class ProductService {
     @InjectModel(Product) private readonly productModel: typeof Product,
   ) {}
 
-  getProducts(filter: ProductQueryParams): Promise<Product[]> {
+  async getProducts(filter: ProductQueryParams): Promise<Product[]> {
     const { page, limit, filters } = filter;
     const offset = (page - 1) * limit;
 
@@ -43,7 +43,6 @@ export class ProductService {
 
     return this.productModel.findAll({
       where: productWhereCondition,
-
       include: [
         {
           model: Category,
@@ -71,21 +70,12 @@ export class ProductService {
             where: { value: size },
           }),
         },
-        {
-          model: Rating,
-          attributes: [],
-        },
       ],
-      attributes: {
-        include: [[fn('AVG', col('Ratings.value')), 'avgRating']],
-      },
-      group: ['Product.id', 'Category.id', 'Brands.id', 'Colors.id', 'Size.id'],
-      having: minRating
-        ? literal(`AVG("Ratings"."value") >= ${minRating}`)
-        : undefined,
+
       order: [[sortBy || 'createdAt', (orderBy || 'ASC').toUpperCase()]],
       limit,
       offset,
+      subQuery: false,
     });
   }
 }
