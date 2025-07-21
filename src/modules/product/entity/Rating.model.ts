@@ -1,16 +1,19 @@
-import { Model } from 'sequelize';
-import { Column, DataType, Default, PrimaryKey, Table } from 'sequelize-typescript';
-import { v4 as uuidv4 } from 'uuid';
+import { Table, Column, DataType, Model, PrimaryKey } from 'sequelize-typescript';
 
-@Table({ tableName : 'rating_details' })
+@Table({ tableName: 'rating_details' })
 export class Rating extends Model<Rating> {
   @PrimaryKey
-  @Default(uuidv4)
   @Column({
     type: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
   })
   declare id: string;
 
+  @Column({
+    type: DataType.UUID,
+    field: 'product_id',
+    allowNull: false,
+  })
   productId: string;
 
   @Column({

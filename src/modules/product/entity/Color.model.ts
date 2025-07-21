@@ -14,9 +14,9 @@ import { ProductColor } from './ProductColor.model';
 @Table({ tableName: 'color_details' })
 export class Colors extends Model<Colors> {
   @PrimaryKey
-  @Default(uuidv4)
   @Column({
     type: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
   })
   declare id: string;
 

@@ -13,9 +13,9 @@ import { Product } from './Product.model';
 @Table({ tableName: 'brand_details' })
 export class Brands extends Model<Brands> {
   @PrimaryKey
-  @Default(uuidv4)
   @Column({
     type: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
   })
   declare id: string;
 

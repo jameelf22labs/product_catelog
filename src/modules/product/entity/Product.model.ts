@@ -20,9 +20,9 @@ import { ProductSize } from './ProductSize.model';
 @Table({ tableName: 'product_details' })
 export class Product extends Model<Product> {
   @PrimaryKey
-  @Default(uuidv4)
   @Column({
     type: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
   })
   declare id: string;
 
