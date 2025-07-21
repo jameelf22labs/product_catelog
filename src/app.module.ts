@@ -22,7 +22,7 @@ import { ProductModule } from './modules/product/product.module';
         database : config.get<string>('POSTGRESS_DB'),
         autoLoadModels: true, 
         logging : true
-      })
+      }),
     }),
     ProductModule
   ],

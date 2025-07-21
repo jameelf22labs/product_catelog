@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Product } from './Product.model';
 import { ProductSize } from './ProductSize.model';
 
-@Table({ tableName: 'sizedetails' })
+@Table({ tableName: 'size_details' })
 export class Size extends Model<Size> {
   @PrimaryKey
   @Default(uuidv4)

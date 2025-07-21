@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Product } from './Product.model';
 import { ProductColor } from './ProductColor.model';
 
-@Table({ tableName: 'colordetails' })
+@Table({ tableName: 'color_details' })
 export class Colors extends Model<Colors> {
   @PrimaryKey
   @Default(uuidv4)

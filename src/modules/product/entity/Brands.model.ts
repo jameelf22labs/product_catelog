@@ -10,7 +10,7 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import { Product } from './Product.model';
 
-@Table({ tableName: 'branddetails' })
+@Table({ tableName: 'brand_details' })
 export class Brands extends Model<Brands> {
   @PrimaryKey
   @Default(uuidv4)

@@ -17,7 +17,7 @@ import { ProductColor } from './ProductColor.model';
 import { Size } from './Size.model';
 import { ProductSize } from './ProductSize.model';
 
-@Table({ tableName: 'productdetails' })
+@Table({ tableName: 'product_details' })
 export class Product extends Model<Product> {
   @PrimaryKey
   @Default(uuidv4)
