@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { Product } from './entity/Product.model';
-import { Op } from 'sequelize';
+import { col, fn, literal, Op } from 'sequelize';
 import { Category } from './entity/Category.model';
 import { Brands } from './entity/Brands.model';
 import { Colors } from './entity/Color.model';
 import { Size } from './entity/Size.model';
 import { InjectModel } from '@nestjs/sequelize';
 import { ProductQueryParams } from './dto/QueryParams';
+import { Rating } from './entity/Rating.model';
 
 @Injectable()
 export class ProductService {
@@ -47,43 +48,42 @@ export class ProductService {
         {
           model: Category,
           ...(category && {
-            where: {
-              name: { [Op.iLike]: category },
-            },
+            where: { name: { [Op.iLike]: category } },
           }),
         },
-
         {
           model: Brands,
           ...(brand && {
-            where: {
-              name: { [Op.iLike]: brand },
-            },
+            where: { name: { [Op.iLike]: brand } },
           }),
         },
-
         {
           model: Colors,
           through: { attributes: [] },
           ...(color && {
-            where: {
-              name: { [Op.iLike]: color },
-            },
+            where: { name: { [Op.iLike]: color } },
           }),
         },
-
         {
           model: Size,
           through: { attributes: [] },
           ...(size && {
-            where: {
-              value: size,
-            },
+            where: { value: size },
           }),
         },
+        {
+          model: Rating,
+          attributes: [],
+        },
       ],
-
-      order: [[sortBy || 'createdAt', (orderBy || 'asc').toUpperCase()]],
+      attributes: {
+        include: [[fn('AVG', col('Ratings.value')), 'avgRating']],
+      },
+      group: ['Product.id', 'Category.id', 'Brands.id', 'Colors.id', 'Size.id'],
+      having: minRating
+        ? literal(`AVG("Ratings"."value") >= ${minRating}`)
+        : undefined,
+      order: [[sortBy || 'createdAt', (orderBy || 'ASC').toUpperCase()]],
       limit,
       offset,
     });
