@@ -4,30 +4,46 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ProductModule } from './modules/product/product.module';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
+    ThrottlerModule.forRoot({
+      throttlers: [
+        {
+          ttl: 60,
+          limit: 5,
+        },
+      ],
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
     SequelizeModule.forRootAsync({
-      imports : [ConfigModule],
-      inject : [ConfigService],
-      useFactory : (config : ConfigService) => ({
-        dialect : 'postgres',
-        host : config.get<string>('POSTGRESS_HOST'),
-        port : config.get<number>('POSTGRESS_PORT'),
-        username : config.get<string>('POSTGRESS_USERNAME'),
-        password : config.get<string>('POSTGRESS_PASSWORD'),
-        database : config.get<string>('POSTGRESS_DB'),
-        autoLoadModels: true, 
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        dialect: 'postgres',
+        host: config.get<string>('POSTGRESS_HOST'),
+        port: config.get<number>('POSTGRESS_PORT'),
+        username: config.get<string>('POSTGRESS_USERNAME'),
+        password: config.get<string>('POSTGRESS_PASSWORD'),
+        database: config.get<string>('POSTGRESS_DB'),
+        autoLoadModels: true,
         synchronize: true,
-        logging : true
+        logging: true,
       }),
     }),
-    ProductModule
+    ProductModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}
