@@ -17,6 +17,8 @@ export class ProductController {
       filter || '',
     );
 
+    console.log(queryParamObj)
+
     return this.productService.getProducts({
       page: page || 0,
       limit: limit || 10,

@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { Product } from './entity/Product.model';
-import { ProductQueryParams } from './dto/QueryParams';
-import { Op, where } from 'sequelize';
+import { Op } from 'sequelize';
 import { Category } from './entity/Category.model';
 import { Brands } from './entity/Brands.model';
 import { Colors } from './entity/Color.model';
 import { Size } from './entity/Size.model';
 import { InjectModel } from '@nestjs/sequelize';
+import { ProductQueryParams } from './dto/QueryParams';
 
 @Injectable()
 export class ProductService {
@@ -30,38 +30,56 @@ export class ProductService {
       orderBy,
     } = filters;
 
-    const productWhereContition: any = {};
-    if (minPrice) productWhereContition.price = { [Op.gte]: minPrice };
-    if (maxPrice)
-      productWhereContition.price = {
-        ...(productWhereContition.price || {}),
+    const productWhereCondition: any = {};
+
+    if (minPrice) productWhereCondition.price = { [Op.gte]: minPrice };
+    if (maxPrice) {
+      productWhereCondition.price = {
+        ...(productWhereCondition.price || {}),
         [Op.lte]: maxPrice,
       };
+    }
 
-    const products = this.productModel.findAll({
-      where: productWhereContition,
+    return this.productModel.findAll({
+      where: productWhereCondition,
 
       include: [
         {
           model: Category,
-          ...(category && { where: { name: category } }),
+          ...(category && {
+            where: {
+              name: { [Op.iLike]: category },
+            },
+          }),
         },
 
         {
           model: Brands,
-          ...(brand && { where: { name: brand } }),
+          ...(brand && {
+            where: {
+              name: { [Op.iLike]: brand },
+            },
+          }),
         },
 
         {
           model: Colors,
           through: { attributes: [] },
-          ...(color && { where: { name: color } }),
+          ...(color && {
+            where: {
+              name: { [Op.iLike]: color },
+            },
+          }),
         },
 
         {
           model: Size,
           through: { attributes: [] },
-          ...(size && { where: { value: size } }),
+          ...(size && {
+            where: {
+              value: size,
+            },
+          }),
         },
       ],
 
@@ -69,7 +87,5 @@ export class ProductService {
       limit,
       offset,
     });
-
-    return products;
   }
 }
