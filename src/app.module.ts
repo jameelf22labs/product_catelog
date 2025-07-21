@@ -13,9 +13,8 @@ import { Sequelize } from 'sequelize-typescript';
     ThrottlerModule.forRoot({
       throttlers: [
         {
-          ttl: 60,
-          limit: 5,
-          name: 'product',
+          ttl: 60000,
+          limit: 10,
         },
       ],
     }),
