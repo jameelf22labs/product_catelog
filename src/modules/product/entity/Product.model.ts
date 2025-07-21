@@ -9,7 +9,6 @@ import {
   BelongsTo,
   BelongsToMany,
 } from 'sequelize-typescript';
-import { v4 as uuidv4 } from 'uuid';
 import { Category } from './Category.model';
 import { Brands } from './Brands.model';
 import { Colors } from './Color.model';
