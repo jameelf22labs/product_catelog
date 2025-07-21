@@ -1,24 +1,22 @@
-import { Table, Column, DataType, Model, PrimaryKey } from 'sequelize-typescript';
+import { Column, DataType, Model, Table, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import { Product } from './Product.model';
 
 @Table({ tableName: 'rating_details' })
 export class Rating extends Model<Rating> {
-  @PrimaryKey
   @Column({
-    type: DataType.UUID,
-    defaultValue: DataType.UUIDV4,
-  })
-  declare id: string;
-
-  @Column({
-    type: DataType.UUID,
-    field: 'product_id',
+    type: DataType.INTEGER,
     allowNull: false,
+  })
+  value: number;
+
+  @ForeignKey(() => Product)
+  @Column({
+    type: DataType.UUID,
+    allowNull: false,
+    field: 'product_id',
   })
   productId: string;
 
-  @Column({
-    type: DataType.STRING,
-    field: 'product_rating',
-  })
-  value: string;
+  @BelongsTo(() => Product)
+  product: Product;
 }

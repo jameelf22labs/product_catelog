@@ -8,6 +8,7 @@ import {
   ForeignKey,
   BelongsTo,
   BelongsToMany,
+  HasMany,
 } from 'sequelize-typescript';
 import { Category } from './Category.model';
 import { Brands } from './Brands.model';
@@ -16,6 +17,7 @@ import { ProductColor } from './ProductColor.model';
 import { Size } from './Size.model';
 import { ProductSize } from './ProductSize.model';
 import Media from './Media.model';
+import { Rating } from './Rating.model';
 
 @Table({ tableName: 'product_details' })
 export class Product extends Model<Product> {
@@ -97,4 +99,7 @@ export class Product extends Model<Product> {
 
   @BelongsToMany(() => Size, () => ProductSize)
   size: Size[];
+
+  @HasMany(() => Rating)
+  ratings: Rating[];
 }
