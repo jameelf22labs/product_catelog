@@ -15,6 +15,7 @@ import { Colors } from './Color.model';
 import { ProductColor } from './ProductColor.model';
 import { Size } from './Size.model';
 import { ProductSize } from './ProductSize.model';
+import Media from './Media.model';
 
 @Table({ tableName: 'product_details' })
 export class Product extends Model<Product> {
@@ -66,8 +67,19 @@ export class Product extends Model<Product> {
   })
   categoryId: string;
 
+  @ForeignKey(() => Media)
+  @Column({
+    type: DataType.UUID,
+    field: 'media_id',
+    allowNull: false,
+  })
+  mediaId: string;
+
   @BelongsTo(() => Category)
   category: Category;
+
+  @BelongsTo(() => Media)
+  media: Media;
 
   @ForeignKey(() => Brands)
   @Column({

@@ -10,6 +10,7 @@ import { Rating } from './entity/Rating.model';
 import { Size } from './entity/Size.model';
 import { ProductColor } from './entity/ProductColor.model';
 import { ProductSize } from './entity/ProductSize.model';
+import Media from './entity/Media.model';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { ProductSize } from './entity/ProductSize.model';
       Size,
       ProductColor,
       ProductSize,
+      Media
     ]),
   ],
   controllers: [ProductController],
