@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { ProductModule } from './modules/product/product.module';
 
 @Module({
   imports: [
@@ -22,7 +23,8 @@ import { SequelizeModule } from '@nestjs/sequelize';
         autoLoadModels: true, 
         logging : true
       })
-    })
+    }),
+    ProductModule
   ],
   controllers: [AppController],
   providers: [AppService],
